@@ -1,0 +1,3 @@
+[submodule "sim/UVM_1.2"]
+	path = sim/UVM_1.2
+	url = https://github.com/Purdue-SoCET/UVM_1.2.git
