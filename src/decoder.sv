@@ -52,7 +52,22 @@ module decoder
             imm_s_o [31:11] <= '{default: 'instr_s[31]};
             imm_s_o [10:5] <= instr_s [30:25];
             imm_s_o [4:10] <= instr_s [11:7];
-
+            // B immidiate
+            imm_b_o [31:12] <= '{default: 'instr_s[31]};
+            imm_b_o [10:5] <= instr_s [30:25];
+            imm_b_o [11] <= instr_s [7];
+            imm_b_o [4:1] <= instr_s [11:8];
+            imm_b_o [0] <= 0'b0;
+            // U immidiate
+            imm_u_o [10:5] <= '{default: '0};
+            imm_u_o [31:12] <= instr_s [31:12];
+            // J immidiate
+            imm_j_o [31:20] <= '{default: 'instr_s[31]};
+            imm_j_o [19:12] <= instr_s [19:12];
+            imm_j_o [11] <= instr_s [20];
+            imm_j_o [10:5] <= instr_s [30:25];
+            imm_j_o [4:1] <= instr_s [24:21];
+            imm_j_o [0] <= 0'b0;
         end
     end
 end
