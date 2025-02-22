@@ -18,7 +18,7 @@ MEM_PROC: always @(posedge clk) begin
     if (rstn_i == 0'b0) begin
         mem_s <= '{default: '0};
     end
-    else begin //
+    else begin
         if (wr_en == 1'b1)
         begin
             mem_s[addr_i] <= data_i;
