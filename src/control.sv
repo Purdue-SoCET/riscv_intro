@@ -24,5 +24,14 @@ module control (
     output logic rd_en_o,
     output logic [31:0] mem_data_o
 );
+
+// Program counter
+logic [31:0] pc_s;
+// Currently execeuted PC address
+logic [31:0] pc_current_s;
+// General purpose registers
+logic [31:0] reg_s [31:0];
+// Write back word to registers
+logic write_back_s [31:0];
     
 endmodule
