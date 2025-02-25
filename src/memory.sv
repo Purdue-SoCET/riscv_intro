@@ -1,6 +1,5 @@
-module memory #(  
-    parameter addr_p = 10,
-    parameter data_width_p = 32)
+module memory
+import riscv_pkg::*;
 (
     input logic clk_i,
     input logic rstn_i,

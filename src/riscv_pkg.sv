@@ -17,5 +17,9 @@ typedef enum logic {
     ADD   = 0,
     SUB   = 1,
  } t_alu;
+
+ parameter int data_width_p = 32;
+ parameter int addr_p = 10;
+ parameter int byte_addr_p = addr_p + 2;
     
 endpackage

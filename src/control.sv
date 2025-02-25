@@ -16,7 +16,13 @@ module control (
     input logic [31:0] alu_result_o,
     output t_alu op_alu_i,
     output logic [31:0] alu_src1_i,
-    output logic [31:0] alu_src2_i
+    output logic [31:0] alu_src2_i,
+    // Memory interface
+    input logic [31:0] mem_data_i,
+    output logic [byte_addr_p-1:0] addr_o,
+    output logic wr_en_o,
+    output logic rd_en_o,
+    output logic [31:0] mem_data_o
 );
     
 endmodule
