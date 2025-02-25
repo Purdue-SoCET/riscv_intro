@@ -16,6 +16,6 @@ typedef enum logic [3:0] {
 typedef enum logic {
     ADD   = 0,
     SUB   = 1,
- } t_parity;
+ } t_alu;
     
 endpackage
