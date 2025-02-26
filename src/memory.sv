@@ -13,12 +13,12 @@ import riscv_pkg::*;
 // Memory array 1024x32
 logic [data_width_p-1:0] mem_s [2**addr_p];
 
-MEM_PROC: always @(posedge clk) begin
+always @(posedge clk_i) begin: MEM_PROC
     if (rstn_i == 0'b0) begin
         mem_s <= '{default: '0};
     end
     else begin
-        if (wr_en == 1'b1)
+        if (wr_en_i == 1'b1)
         begin
             mem_s[addr_i] <= data_i;
         end
@@ -27,5 +27,5 @@ MEM_PROC: always @(posedge clk) begin
             data_o <= mem_s[addr_i];
         end
     end
-end
+end:MEM_PROC
 endmodule
