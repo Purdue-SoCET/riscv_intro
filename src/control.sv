@@ -1,4 +1,6 @@
-module control (
+module control
+    import riscv_pkg::*;
+    (
     input logic clk_i,
     input logic rstn_i,
     // Decoder interface
