@@ -7,7 +7,7 @@ import riscv_pkg::*;
     output logic [31:0] result_o
     ); 
 
-ALU_PROC: always @(*) begin
+always @(*) begin: ALU_PROC
 
     case (op_i)
        ADD : 
@@ -24,5 +24,5 @@ ALU_PROC: always @(*) begin
         end
     endcase
 
-end
+end: ALU_PROC
 endmodule

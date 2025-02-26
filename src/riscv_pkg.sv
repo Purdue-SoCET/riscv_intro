@@ -1,4 +1,4 @@
-package riscv_pkg
+package riscv_pkg;
 
 typedef enum logic [3:0] {
    NOP     = 0,
@@ -15,7 +15,7 @@ typedef enum logic [3:0] {
 
 typedef enum logic {
     ADD   = 0,
-    SUB   = 1,
+    SUB   = 1
  } t_alu;
 
  parameter int data_width_p = 32;
