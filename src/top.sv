@@ -5,8 +5,15 @@ module top (
     output logic [31:0] mem_data_o
 );
 
+logic [addr_p-1:0] word_addr_s;
+logic [byte_addr_p-1:0] byte_addr_s;
+
+assign word_addr_s = byte_addr_s [byte_addr_p -1 : 2];
+
+// Memory
 logic mem_rd_en_s;
 logic mem_wr_en_s;
+// Decoder
 logic dec_rd_en_s;
 logic t_risc_v_op opcode_s,
 logic [4:0] rd_s,
@@ -17,11 +24,12 @@ logic [31:0] imm_s_s,
 logic [31:0] imm_b_s,
 logic [31:0] imm_u_s,
 logic [31:0] imm_j_s,
-logic [addr_p-1:0] word_addr_s;
-logic [byte_addr_p-1:0] byte_addr_s;
+// ALU
+t_alu alu_opcode_s,
+logic [31:0] src1_s,
+logic [31:0] src2_s,
+logic [31:0] result_s
 
-assign word_addr_s = byte_addr_s [byte_addr_p -1 : 2];
-    
 memory memory_inst (
     .clk_i (clk_i),
     .rstn_i (rstn_i),
@@ -46,6 +54,13 @@ decoder decoder_inst (
     .imm_b_o (imm_b_s),
     .imm_u_o (imm_u_s),
     .imm_j_o (imm_j_s)
+)
+
+alu alu_inst (
+    .op_i (alu_opcode_s),
+    .src1_i (src1_s),
+    .src2_i (src2_s),
+    .result_o (result_s)
 )
     
 endmodule
