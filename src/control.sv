@@ -15,10 +15,10 @@ module control
     input logic [31:0] imm_j_i,
     output logic decoder_en_o,
     // ALU interface
-    input logic [31:0] alu_result_o,
-    output t_alu op_alu_i,
-    output logic [31:0] alu_src1_i,
-    output logic [31:0] alu_src2_i,
+    input logic [31:0] alu_result_i,
+    output t_alu op_alu_o,
+    output logic [31:0] alu_src1_o,
+    output logic [31:0] alu_src2_o,
     // Memory interface
     input logic [31:0] mem_data_i,
     output logic [byte_addr_p-1:0] addr_o,

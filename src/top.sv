@@ -15,7 +15,7 @@ logic mem_rd_en_s;
 logic mem_wr_en_s;
 // Decoder
 logic dec_rd_en_s;
-logic t_risc_v_op opcode_s,
+logic t_risc_v_op dec_opcode_s,
 logic [4:0] rd_s,
 logic [4:0] rs1_s,
 logic [4:0] rs2_s,
@@ -45,7 +45,7 @@ decoder decoder_inst (
     .rstn_i (rstn_i),
     .rd_en_i (dec_rd_en_s),
     .mem_data_i (mem_data_o),
-    .opcode_o (opcode_s),
+    .opcode_o (dec_opcode_s),
     .rd_o (rd_s),
     .rs1_o (rs1_s),
     .rs2_o (rs2_s),
@@ -61,6 +61,33 @@ alu alu_inst (
     .src1_i (src1_s),
     .src2_i (src2_s),
     .result_o (result_s)
+)
+
+control control_inst (
+    .clk_i (clk_i),
+    .rstn_i (rstn_i),
+    // Decoder interface
+    .op_dec_i (dec_opcode_s),
+    .rd_i (rd_s),
+    .rs1_i (rs1_s),
+    .rs2_i (rs2_s),
+    .imm_i_i (imm_i_s),
+    .imm_s_i (imm_s_s),
+    .imm_b_i (imm_b_s),
+    .imm_u_i (imm_u_s),
+    .imm_j_i (imm_j_s),
+    .decoder_en_o (dec_rd_en_s),
+    // ALU interface
+    .alu_result_i (result_s),
+    .op_alu_o (alu_opcode_s),
+    .alu_src1_o (src1_s),
+    .alu_src2_o (src2_s),
+    // Memory interface
+    .mem_data_i (mem_data_i),
+    .addr_o (byte_addr_s),
+    .wr_en_o (mem_wr_en_s),
+    .rd_en_o (mem_rd_en_s),
+    .mem_data_o (mem_data_o)
 )
     
 endmodule
