@@ -4,6 +4,7 @@ module decoder
     input logic rstn_i,
     input logic rd_en_i,
     input logic [31:0] mem_data_i,
+    output t_risc_v_op opcode_o,
     output logic [4:0] rd_o,
     output logic [4:0] rs1_o,
     output logic [4:0] rs2_o,
