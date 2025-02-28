@@ -35,5 +35,42 @@ logic [31:0] pc_current_s;
 logic [31:0] reg_s [31:0];
 // Write back word to registers
 logic write_back_s [31:0];
+
+// FSM Encoding
+enum logic [3:0]
+    { FETCH_FIRST,
+      FETCH_SECOND,
+      DECODE_FIRST,
+      DECODE_SECOND,
+      EXECUTE_FIRST,
+      EXECUTE_SECOND,
+      MEM_RD_FIRST,
+      MEM_RD_SECOND,
+      MEM_WRITE,
+      MEM_WRITE_BACK
+    } state;
     
+    always @(posedge clk_i) begin: CONTROL_FSM
+       if (rstn_i == 1'b0) begin
+        op_alu_o <= ADD;
+        alu_src1_o <= '{default: '0};
+        alu_src2_o <= '{default: '0};
+        addr_o <= '{default: '0};
+        wr_en_o <= '{default: '0};
+        rd_en_o <= '{default: '0};
+        wr_en_o <= '{default: '0};
+        mem_data_o <= '{default: '0};
+        state <= FETCH_FIRST;
+        pc_s <= '{default: '0};
+        pc_current_s <= '{default: '0};
+        reg_s <= '{default: '0};
+        write_back_s <= '{default: '0};
+       end 
+       else begin
+        case (param)
+            : 
+            default: 
+        endcase
+       end
+    end:CONTROL_FSM
 endmodule
