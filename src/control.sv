@@ -35,5 +35,94 @@ logic [31:0] pc_current_s;
 logic [31:0] reg_s [31:0];
 // Write back word to registers
 logic write_back_s [31:0];
+
+// FSM Encoding
+enum logic [3:0]
+    { FETCH_FIRST,
+      FETCH_SECOND,
+      DECODE_FIRST,
+      DECODE_SECOND,
+      EXECUTE_FIRST,
+      EXECUTE_SECOND,
+      MEM_RD_FIRST,
+      MEM_RD_SECOND,
+      MEM_WRITE,
+      MEM_WRITE_BACK
+    } state;
     
+    always @(posedge clk_i) begin: CONTROL_PROC
+       if (rstn_i == 1'b0) begin
+        decoder_en_o <= '{default: '0};
+        op_alu_o <= ADD;
+        alu_src1_o <= '{default: '0};
+        alu_src2_o <= '{default: '0};
+        addr_o <= '{default: '0};
+        wr_en_o <= '{default: '0};
+        rd_en_o <= '{default: '0};
+        wr_en_o <= '{default: '0};
+        mem_data_o <= '{default: '0};
+        state <= FETCH_FIRST;
+        pc_s <= '{default: '0};
+        pc_current_s <= '{default: '0};
+        reg_s <= '{default: '0};
+        write_back_s <= '{default: '0};
+       end 
+       else begin
+        decoder_en_o <= 1'b0;
+        wr_en_o <= 1'b0;
+        case (state): CONTROL_FSM
+            FETCH_FIRST : begin
+                addr_o <= pc_s [byte_addr_p - 1: 0];
+                pc_current_s <= pc;
+                pc_s <= pc_s + 4;
+                state <= FETCH_SECOND; // to wait one clock cycle
+            end
+            FETCH_SECOND : begin
+                decoder_en_o <= 1'b1;
+                state <= DECODE_FIRST;
+            end
+            DECODE_FIRST : begin
+                state <= DECODE_SECOND; // to wait one clock cycle
+            end
+            DECODE_SECOND : begin
+                case (op_dec_i): RISCV_INST_DECODE
+                    : 
+                    default: 
+                endcase: RISCV_INST_DECODE
+            end
+            EXECUTE_FIRST : begin
+                case (op_dec_i): RISCV_INST_EXECUTE_FIRST
+                    : 
+                    default: 
+                endcase: RISCV_INST_EXECUTE_FIRST
+            end
+            EXECUTE_SECOND : begin
+                 case (op_dec_i): RISCV_INST_EXECUTE_SECOND
+                    : 
+                    default: 
+                endcase: RISCV_INST_EXECUTE_SECOND
+            end
+            MEM_RD_FIRST : begin
+                state <= MEM_RD_SECOND;  // to wait one clock cycle
+            end
+            MEM_RD_SECOND : begin
+                case (op_dec_i): RISCV_INST_MEMORY_READ_SECOND
+                    : 
+                    default: 
+                endcase: RISCV_INST_MEMORY_READ_SECOND
+            end
+            MEM_WRITE : begin
+                case (op_dec_i): RISCV_INST_WRITE
+                    : 
+                    default: 
+                endcase: RISCV_INST_WRITE
+            end
+            MEM_WRITE_BACK : begin
+                reg_s[rd_i] <= write_back_s;
+                reg_s[0] <= 1'b0; // x0 is hardwired 
+                state <= FETCH_FIRST;
+            end
+        endcase:CONTROL_FSM
+       end
+    end:CONTROL_PROC
 endmodule
