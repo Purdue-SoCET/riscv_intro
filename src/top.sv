@@ -1,4 +1,6 @@
-module top (
+module top
+import riscv_pkg::*;
+(
     input logic clk_i,
     input logic rstn_i,
     input logic [31:0] mem_data_i,
@@ -15,20 +17,20 @@ logic mem_rd_en_s;
 logic mem_wr_en_s;
 // Decoder
 logic dec_rd_en_s;
-logic t_risc_v_op dec_opcode_s,
-logic [4:0] rd_s,
-logic [4:0] rs1_s,
-logic [4:0] rs2_s,
-logic [31:0] imm_i_s,
-logic [31:0] imm_s_s,
-logic [31:0] imm_b_s,
-logic [31:0] imm_u_s,
-logic [31:0] imm_j_s,
+t_risc_v_op dec_opcode_s;
+logic [4:0] rd_s;
+logic [4:0] rs1_s;
+logic [4:0] rs2_s;
+logic [31:0] imm_i_s;
+logic [31:0] imm_s_s;
+logic [31:0] imm_b_s;
+logic [31:0] imm_u_s;
+logic [31:0] imm_j_s;
 // ALU
-t_alu alu_opcode_s,
-logic [31:0] src1_s,
-logic [31:0] src2_s,
-logic [31:0] result_s
+t_alu alu_opcode_s;
+logic [31:0] src1_s;
+logic [31:0] src2_s;
+logic [31:0] result_s;
 
 memory memory_inst (
     .clk_i (clk_i),
@@ -38,7 +40,7 @@ memory memory_inst (
     .rd_en_i (mem_rd_en_s),
     .data_i (mem_data_i),
     .data_o (mem_data_o)
-)
+);
 
 decoder decoder_inst (
     .clk_i (clk_i),
@@ -54,14 +56,14 @@ decoder decoder_inst (
     .imm_b_o (imm_b_s),
     .imm_u_o (imm_u_s),
     .imm_j_o (imm_j_s)
-)
+);
 
 alu alu_inst (
     .op_i (alu_opcode_s),
     .src1_i (src1_s),
     .src2_i (src2_s),
     .result_o (result_s)
-)
+);
 
 control control_inst (
     .clk_i (clk_i),
@@ -88,6 +90,6 @@ control control_inst (
     .wr_en_o (mem_wr_en_s),
     .rd_en_o (mem_rd_en_s),
     .mem_data_o (mem_data_o)
-)
+);
     
 endmodule

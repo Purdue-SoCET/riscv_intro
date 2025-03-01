@@ -27,6 +27,7 @@ vlog -work $lib_name [file join $rtl_dir memory.sv      ]
 vlog -work $lib_name [file join $rtl_dir decoder.sv     ]
 vlog -work $lib_name [file join $rtl_dir control.sv     ]
 vlog -work $lib_name [file join $rtl_dir alu.sv         ]
+vlog -work $lib_name [file join $rtl_dir top.sv         ]
 
 ################################################################################
 # COMPILE VERIFICATION FILES
