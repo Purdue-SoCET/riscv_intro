@@ -5,7 +5,7 @@ import riscv_pkg::*;
     input logic [31:0] src1_i,
     input logic [31:0] src2_i,
     output logic [31:0] result_o
-    ); 
+); 
 
 always @(*) begin: ALU_PROC
 

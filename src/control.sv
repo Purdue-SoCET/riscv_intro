@@ -1,6 +1,6 @@
 module control
-    import riscv_pkg::*;
-    (
+import riscv_pkg::*;
+(
     input logic clk_i,
     input logic rstn_i,
     // Decoder interface
@@ -34,7 +34,7 @@ logic [31:0] pc_current_s;
 // General purpose registers
 logic [31:0] reg_s [31:0];
 // Write back word to registers
-logic write_back_s [31:0];
+logic [31:0] write_back_s;
 
 // FSM Encoding
 enum logic [3:0]
@@ -70,10 +70,10 @@ enum logic [3:0]
        else begin
         decoder_en_o <= 1'b0;
         wr_en_o <= 1'b0;
-        case (state): CONTROL_FSM
+        case (state) //CONTROL_FSM
             FETCH_FIRST : begin
                 addr_o <= pc_s [byte_addr_p - 1: 0];
-                pc_current_s <= pc;
+                pc_current_s <= pc_s;
                 pc_s <= pc_s + 4;
                 state <= FETCH_SECOND; // to wait one clock cycle
             end
@@ -85,44 +85,44 @@ enum logic [3:0]
                 state <= DECODE_SECOND; // to wait one clock cycle
             end
             DECODE_SECOND : begin
-                case (op_dec_i): RISCV_INST_DECODE
-                    : 
-                    default: 
-                endcase: RISCV_INST_DECODE
+                // case (op_dec_i) // RISCV_INST_DECODE
+                //     : 
+                //     default: 
+                // endcase: RISCV_INST_DECODE
             end
             EXECUTE_FIRST : begin
-                case (op_dec_i): RISCV_INST_EXECUTE_FIRST
-                    : 
-                    default: 
-                endcase: RISCV_INST_EXECUTE_FIRST
+                // case (op_dec_i) // RISCV_INST_EXECUTE_FIRST
+                //     : 
+                //     default: 
+                // endcase: RISCV_INST_EXECUTE_FIRST
             end
             EXECUTE_SECOND : begin
-                 case (op_dec_i): RISCV_INST_EXECUTE_SECOND
-                    : 
-                    default: 
-                endcase: RISCV_INST_EXECUTE_SECOND
+                //  case (op_dec_i) // RISCV_INST_EXECUTE_SECOND
+                //     : 
+                //     default: 
+                // endcase: RISCV_INST_EXECUTE_SECOND
             end
             MEM_RD_FIRST : begin
                 state <= MEM_RD_SECOND;  // to wait one clock cycle
             end
             MEM_RD_SECOND : begin
-                case (op_dec_i): RISCV_INST_MEMORY_READ_SECOND
-                    : 
-                    default: 
-                endcase: RISCV_INST_MEMORY_READ_SECOND
+                // case (op_dec_i) // RISCV_INST_MEMORY_READ_SECOND
+                //     : 
+                //     default: 
+                // endcase: RISCV_INST_MEMORY_READ_SECOND
             end
             MEM_WRITE : begin
-                case (op_dec_i): RISCV_INST_WRITE
-                    : 
-                    default: 
-                endcase: RISCV_INST_WRITE
+                // case (op_dec_i) // RISCV_INST_WRITE
+                //     : 
+                //     default: 
+                // endcase: RISCV_INST_WRITE
             end
             MEM_WRITE_BACK : begin
                 reg_s[rd_i] <= write_back_s;
                 reg_s[0] <= 1'b0; // x0 is hardwired 
                 state <= FETCH_FIRST;
             end
-        endcase:CONTROL_FSM
+        endcase // CONTROL_FSM
        end
     end:CONTROL_PROC
 endmodule

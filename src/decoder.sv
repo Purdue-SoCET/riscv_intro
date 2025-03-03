@@ -1,4 +1,5 @@
 module decoder
+import riscv_pkg::*;
 (
     input logic clk_i,
     input logic rstn_i,
@@ -27,6 +28,7 @@ module decoder
 
     always @(posedge clk_i) begin: INST_PROC
     if (rstn_i == 0'b0) begin
+        opcode_o <= NOP;
         rd_o <= '{default: '0};
         rs1_o <= '{default: '0};
         rs2_o <= '{default: '0};
