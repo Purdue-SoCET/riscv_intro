@@ -7,6 +7,10 @@ rm -rf ./modelsim_lib
 set rtl_dir         ../../src/                  ;   # RTL design files
 set uvm_dir         ../UVM_1.2/src/             ;   # UVM libraries' directory
 set top_level_sim   top_tb_sim_lib              ;   # top_level simulation library.
+set agent_dir       ../agent/                   ;   # agent directory
+set top_level       top                         ;   # testbench top name
+set test_bench      ${top_level}_tb             ;   # testbench name 
+set top_dir         ../$test_bench              ;   # Top level testbench directory
 
 if {[file exist modelsim_lib] } { file delete  -force modelsim_lib} 
 file mkdir modelsim_lib
@@ -38,7 +42,8 @@ vlog -work $lib_name [file join $rtl_dir top.sv         ]
 set lib_name ${top_level_sim}
 vlib modelsim_lib/$lib_name
 vmap $lib_name modelsim_lib/$lib_name
-vlog -work $lib_name [file join $uvm_dir uvm_pkg.sv] +incdir+$uvm_dir +define+UVM_NO_DPI
+# vlog -work $lib_name [file join $uvm_dir uvm_pkg.sv ] +incdir+$uvm_dir +define+UVM_NO_DPI
+vlog -work $lib_name [file join $top_dir top_tb.sv  ] +incdir+$agent_dir
 
 # ################################################################################
 # SIMULATE
