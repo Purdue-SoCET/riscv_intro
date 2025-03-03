@@ -85,11 +85,11 @@ control control_inst (
     .alu_src1_o (src1_s),
     .alu_src2_o (src2_s),
     // Memory interface
-    .mem_data_i (mem_data_i),
+    .mem_data_i (mem_data_o),
     .addr_o (byte_addr_s),
     .wr_en_o (mem_wr_en_s),
     .rd_en_o (mem_rd_en_s),
-    .mem_data_o (mem_data_o)
+    .mem_data_o (mem_data_i)
 );
     
 endmodule
