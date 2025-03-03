@@ -21,11 +21,11 @@ module top_tb;
      );
 
     // DUT instance
-  top  top_inst(
-    .clk_i          (riscv_if.clock_i)      ,
-    .resetn_i       (uart_if_inst.resetn_i) ,
-    .mem_data_i     (12'd217)               ,
-    .mem_data_o     (uart_if_inst.rx_din_i)    
+  top top_inst(
+    .clk_i          (riscv_if_inst.clock_i)      ,
+    .rstn_i       (riscv_if_inst.resetn_i) ,
+    .mem_data_i     ()               ,
+    .mem_data_o     ()    
     );
 
 

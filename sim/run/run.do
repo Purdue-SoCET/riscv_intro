@@ -22,7 +22,7 @@ file mkdir modelsim_lib
 # for all libraries do the following: 
 # create library, map to library, compile sources into library 
 # tmpv stands for temporary variable 
-set lib_folder risc_v ;
+set lib_folder riscv ;
 set lib_name ${lib_folder}_lib
 vlib modelsim_lib/$lib_name
 vmap $lib_name modelsim_lib/$lib_name
@@ -48,3 +48,13 @@ vlog -work $lib_name [file join $top_dir top_tb.sv  ] +incdir+$agent_dir
 # ################################################################################
 # SIMULATE
 # ################################################################################
+
+vsim -voptargs=+acc                 \
+    -L riscv_lib                    \
+    -lib ${top_level_sim}           \
+    ${test_bench}                   \
+    -t 1ns 
+set NoQuitOnFinish 1
+add wave -divider control_inst
+add wave -radix hexadecimal -position insertpoint sim:/top_tb/top_inst/control_inst/*
+run -all
