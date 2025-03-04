@@ -70,4 +70,45 @@ import riscv_pkg::*;
         end
     end
 end: INST_PROC
+
+always @(posedge clk_i) begin: DECODE_PROC
+
+    if (rstn_i == 1'b0) begin
+      op <= NOP;
+    end
+        else begin
+
+            if rd_en_i == 1'b0 begin
+
+            end
+            else if (opcode_s == 7'b0010011 && func3_s == 3'b000) begin
+              opcode_o <= ADDI;
+            end
+            else if (opcode_s == 7'b0110111) begin
+              opcode_o <= LUI;
+            end
+            else if (opcode_s == 7'b0100011 && func3_s == 3'b000) begin
+              opcode_o <= SB;
+            end
+            else if (opcode_s == 7'b0000011 && func3_s == 3'b100) begin
+              opcode_o <= LBU;
+            end
+            else if (opcode_s == 7'b1100011 && func3_s == 3'b000) begin
+              opcode_o <= BEQ;
+            end
+            else if (opcode_s == 7'b1100011 && func3_s == 3'b001) begin
+              opcode_o <= BNE;
+            end
+            else if (opcode_s == 7'b1101111) begin
+              opcode_o <= JAL;
+            end
+            else if (opcode_s == 7'b1100111 && func3_s == 3'b000) begin
+              opcode_o <= JALR;
+            end
+            else begin
+              opcode_o <= UNKNOWN;
+              $$display("NO INSTRUCTION IS DETECTED, opcode_s = 0x%0h", opcode_s);
+            end
+        end
+end: DECODE_PROC
 endmodule
