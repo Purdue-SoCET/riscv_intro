@@ -14,7 +14,7 @@ import riscv_pkg::*;
 logic [data_width_p-1:0] mem_s [2**addr_p];
 
 always @(posedge clk_i) begin: MEM_PROC
-    if (rstn_i == 0'b0) begin
+    if (rstn_i == 1'b0) begin
         mem_s <= '{default: '0};
     end
     else begin
